@@ -1,0 +1,20 @@
+body {
+    background-image: url("https://images.squarespace-cdn.com/content/v1/5d4b249616f93e000149aebd/1565629613571-HBE8HM7COODR9E6OI9PG/1_CrimeScene.jpg?format=2500w");
+    background-color: #cccccc;
+}
+
+.heading {
+    line-height: 200px;
+    height: 200px;
+    /* border: 3px solid green; */
+    text-align: center;
+  }
+  
+  /* If the text has multiple lines, add the following: */
+  .heading h1 {
+  font-size: 100px;
+    line-height: 2.5;
+    display: inline-block;
+    vertical-align: middle;
+    color: whitesmoke;
+  }

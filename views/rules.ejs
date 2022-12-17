@@ -1,0 +1,48 @@
+<%- include("partials/header") -%>
+    <p>
+
+        A Time Travelling Serial Killer has committed Four Murders across the Timeline, as a consequence of which, the
+        Timeline has been shaken.
+
+        You are a Detective who has been assigned to undo the Murders and save the Timeline from collapsing. Luckily,
+        the Time Keepers have Kept their Agents at all points in the Line for you to move around freely.
+
+        Interestingly the Killer has been sending the Timekeepers Clues about the Location and Time of the Murder of his
+        Victim.
+
+    </p>
+
+    <h2>TASK</h2>
+
+    <p>
+        You have 4 Rounds and each Round has 3 Questions.<br>
+        Each Question gives crucial information about the Murders.<br>
+        Question 1 tells the Space-Time and Location of the Murder in the respective order.<br>
+        Question 2 tells us how the Murder was committed.<br>
+        Question 3 tells us about the DNA Sequence of the Victim. (Note that there is a mandatory space after every 3
+        Letters in the DNA Sequence)<br>
+
+    </p>
+
+
+    <P>
+
+
+        Only after knowing all the above information can a Timekeeper undo a Death Event.
+
+        All four Murders need to undone to pass the rounds and finally reveal the Identity of the Killer.
+
+    </P>
+
+    <form action="/rules" method="post">
+
+
+        <button class="btn btn-primary" type="submit" name="play" value="play">I am ready to begin</button>
+
+    </form>
+
+
+
+
+
+    <%- include("partials/footer") -%>
