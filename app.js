@@ -3,7 +3,8 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
 let alert = require('alert'); 
-
+const mongoose = require("mongoose");
+const { isInteger } = require("lodash");
 
 const app = express();
 app.set('views', __dirname + '/views');
@@ -13,6 +14,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 
 
+
+
+
+mongoose.connect("mongodb://localhost:27017/questionDB");
+
+const questionSchema = new mongoose.Schema({
+  question: { type: String, required: true  },
+  answer: { type: String, default:true },
+},
+{ timestamps: true }
+);
+
+const Question = new mongoose.model("Question",questionSchema)
 app.get("/Start", function (req, res) {
   res.render("START");
 
@@ -32,7 +46,7 @@ app.post("/rules", function (req, res) {
   // res.render("START");
 
   console.log(req.body);
-  res.redirect("/questions/round1/question11");
+  res.render("questions/round1/question11");
 
 
 
@@ -46,25 +60,26 @@ app.post("/rules", function (req, res) {
 app.get("/rules", function (req, res) {
   res.render("rules");
 });
+
 app.get("/contact", function (req, res) {
   res.render("contact");
 });
 
 
-app.get("/questions/round1/question11", function (req, res) {
-  res.render("questions/round1/question11");
-});
+// app.get("/questions/round1/question11", function (req, res) {
+//   res.render("questions/round1/question11");
+// });
 
 
-app.get("/questions/round1/question12", function (req, res) {
-  res.render("questions/round1/question12");
-});
-app.get("/questions/round1/question13", function (req, res) {
-  res.render("questions/round1/question13");
-});
-app.get("/questions/round1/question14", function (req, res) {
-  res.render("questions/round1/question14");
-});
+// app.get("/questions/round1/question12", function (req, res) {
+//   res.render("questions/round1/question12");
+// });
+// app.get("/questions/round1/question13", function (req, res) {
+//   res.render("questions/round1/question13");
+// });
+// app.get("/questions/round1/question14", function (req, res) {
+//   res.render("questions/round1/question14");
+// });
 
 app.post("/questions/round1/question11", function (req, res) {
   // res.render("START");
@@ -72,65 +87,97 @@ app.post("/questions/round1/question11", function (req, res) {
   var nextQuestion=req.body.play;
   console.log(nextQuestion);
   var answer=req.body.answer;
-  if (answer === "ans") {
-    res.redirect(nextQuestion);
-    console.log("hey");
-  }
-  else {
-    res.redirect("/questions/round1/question11");
-    alert("your answer is incorrect ,try again");
-  }
+  console.log(answer);
+ 
+  Question.findOne({question: nextQuestion }, function(err, foundQuestion){
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundQuestion) {
+        if (foundQuestion.answer === answer) {
+          res.render("questions/round1/"+nextQuestion);
+        }
+        else {
+          // res.redirect("/questions/round1/question11");
+          alert("your answer is incorrect ,try again");
+        }
+      }
+    }
+  });
+});
 
-}
-);
+
 
 
 
 app.post("/questions/round1/question12", function (req, res) {
-  // res.render("START");
-  var answer=req.body.answer;
   var nextQuestion=req.body.play;
   console.log(nextQuestion);
-  if (answer === "ans") {
-    res.redirect(nextQuestion);
-    // console.log("hey")
-  }
-  else {
-    res.redirect("/questions/round1/question12");
-    alert("your answer is incorrect ,try again");
-  }
-
+  var answer=req.body.answer;
+  console.log(answer);
+ 
+  Question.findOne({question: nextQuestion }, function(err, foundQuestion){
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundQuestion) {
+        if (foundQuestion.answer === answer) {
+          res.render("questions/round1/"+nextQuestion);
+        }
+        else {
+          // res.redirect("/questions/round1/question11");
+          alert("your answer is incorrect ,try again");
+        }
+      }
+    }
+  });
 }
 );
 
 app.post("/questions/round1/question13", function (req, res) {
-  // res.render("START");
-  var answer=req.body.answer;
   var nextQuestion=req.body.play;
   console.log(nextQuestion);
-  if (answer === "ans") {
-    res.redirect(nextQuestion);
-    console.log("hey")
-  }
-  else {
-    res.redirect("/questions/round1/question13");
-    alert("your answer is incorrect ,try again");
-  }
-
+  var answer=req.body.answer;
+  console.log(answer);
+ 
+  Question.findOne({question: nextQuestion }, function(err, foundQuestion){
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundQuestion) {
+        if (foundQuestion.answer === answer) {
+          res.render("questions/round1/"+nextQuestion);
+        }
+        else {
+          res.redirect("/questions/round1/question11");
+          alert("your answer is incorrect ,try again");
+        }
+      }
+    }
+  });
 }
 );
 app.post("/questions/round1/question14", function (req, res) {
-  var answer=req.body.answer;
   var nextQuestion=req.body.play;
   console.log(nextQuestion);
-  if (answer === "ans") {
-    res.redirect(nextQuestion)
-    console.log("hey")
-  }
-  else {
-    res.redirect("/questions/round1/question14");
-    alert("your answer is incorrect ,try again");
-  }
+  var answer=req.body.answer;
+  console.log(answer);
+ 
+  Question.findOne({question: nextQuestion }, function(err, foundQuestion){
+    if (err) {
+      console.log(err);
+    } else {
+      if (foundQuestion) {
+        if (foundQuestion.answer === answer) {
+          res.render("questions/round1/"+nextQuestion);
+        }
+        else {
+          // res.redirect("/questions/round1/question11");
+          alert("your answer is incorrect ,try again");
+        }
+      }
+    }
+  });
 
 }
 );
@@ -140,49 +187,6 @@ app.post("/questions/round1/question14", function (req, res) {
 
 
 
-
-
-// );
-
-// app.post("/question11", function (req, res) {
-//   // res.render("START");
-//   var answer = req.body.answer;
-//   if (answer === "ans") {
-//     res.redirect("question12")
-//     console.log("hey")
-//   }
-//   else {
-
-//     res.redirect("question11");
-//     alert("your answer is incorrect ,try again");
-//   }
-
-// }
-
-
-// );
-// app.post("/question12", function (req, res) {
-//   // res.render("START");
-//   var answer = req.body.answer;
-//   if (answer === "ans") {
-//     res.redirect("question13")
-//     console.log("hey")
-//   }
-//   else {
-
-//     res.redirect("question12");
-//     alert("your answer is incorrect ,try again");
-//   }
-
-// }
-
-
-// );
-// app.post("/question13", function (req, res) {
-//   // res.render("START");
-//   var answer = req.body.answer;
-//   if (answer === "ans") {
-//     res.redirect("q
 
 
 app.listen(3000, function () {
