@@ -1,8 +1,20 @@
 # OP
 
-this i a basic game i developed as part of the computer science organisation. The questions were not made by me that is why i have not added questions in the repository. 
-this app has a mongoDB database with two seperate collections for questions and players, the players are added in data base when they type in their name on the start page. The questions need to be manually added to the dataBase as there is not admin page.
+this is  a basic game game template this can be used to design online quizzes,fastest finger first games,tests etc.
 
+
+ The questions can be added manually in the views folder . 
+this app has a mongoDB database with two seperate collections for questions and players, the players are added in data base when they type in their name on the start page. The answers to the questions need to be  manually added to the dataBase.
+
+
+USAGE INSTRUCTIONS 
+
+to use this template.
+ CLONE this repository 
+ Add questions by going in the views/questions/round1 
+ Edit the question files to add questions. You can add as many questions as you need . Just make sure that "question14" is the last question you ask.
+ Create a database  named questions and add Question names and thier answers in it.
+ YOU ARE ALL SET !!.
 
 
 
