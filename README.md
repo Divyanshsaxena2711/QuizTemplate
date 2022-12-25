@@ -1,6 +1,6 @@
 # QUIZ TEMPLATE
 
-# This is  a basic game game template this can be used to design online quizzes,tests etc.
+# This is  a basic game template this can be used to design online quizzes,tests etc.
 
 
  The questions can be added manually in the views folder . 
