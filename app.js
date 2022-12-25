@@ -19,11 +19,11 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.use(session({
-  secret : 'some secret',
-  Cookie : {mazAge : 30000},
-  saveUniniftialized:false,
+  secret: 'some secret',
+  Cookie: { mazAge: 30000 },
+  saveUniniftialized: false,
 }))
- var ssn;
+var ssn;
 
 mongoose.connect("mongodb://localhost:27017/questionDB");
 //questionSchema
@@ -68,23 +68,41 @@ app.get("/Start", function (req, res) {
 
 app.post("/Start", function (req, res) {
   // res.render("START");
- ssn = req.session;
- var contestant;
+  ssn = req.session;
+  var contestant;
 
- 
+
+
 
   ssn.contestant = req.body.Username;
-  const User = new Player({
-    PlayerName: ssn.contestant,
-    
-    
-  })
-  
-  User.save();
-  
-  
 
-  res.redirect("rules");
+
+  Player.findOne({ PlayerName: ssn.contestant }, function (err, bot) {
+
+    if (!bot) {
+      console.log("new user");
+      const User = new Player({
+        PlayerName: ssn.contestant,
+
+
+      });
+
+      User.save();
+      console.log("user saved")
+      res.redirect("rules");
+
+    }
+    else if (bot) {
+
+      res.redirect("rules");
+      console.log(bot);
+    }
+  });
+
+
+
+
+
 }
 
 );
@@ -97,9 +115,6 @@ app.post("/rules", function (req, res) {
 
   console.log(req.body);
   res.render("questions/round1/question11");
-
-
-
 
 }
 
@@ -116,26 +131,26 @@ app.get("/contact", function (req, res) {
 });
 
 
+//post request to  change the question 
 
-
-app.post("/questions/round1/question11", function (req, res) {
+app.post("/questions/round1/feed", function (req, res) {
   // res.render("START");
-ssn = req.session;
+  ssn = req.session;
   var nextQuestion = req.body.play;
   console.log(nextQuestion);
   var answer = req.body.answer;
   var contestant;
   console.log(answer);
-console.log(ssn.contestant);
+  // console.log(ssn.contestant);
   Player.findOneAndUpdate(
     { PlayerName: ssn.contestant },
-    { CurrentStage: "question11" },
+    { CurrentStage: nextQuestion },
     { new: true },
-    function (err){
- if(err){
-  console.log(err);
- }
- else{console.log("no error")}
+    function (err) {
+      if (err) {
+        console.log(err);
+      }
+      // else { console.log("no error") }
     }
 
 
@@ -147,10 +162,39 @@ console.log(ssn.contestant);
     if (err) {
       console.log(err);
     } else {
+      
       if (foundQuestion) {
-        if (foundQuestion.answer === answer) {
+
+
+        if (foundQuestion.question === "question21") {
+          // console.log(foundQuestion)
+  
+          Player.findOneAndUpdate(
+            { PlayerName: ssn.contestant },
+            { CurrentStage: "END" },
+            { new: true },
+            function (err) {
+              if (err) {
+                console.log(err);
+              }
+              else { console.log("no error") }
+            }
+  
+  
+  
+  
+          );
+  
+  
+  
+          res.render("END");
+  
+        }
+         else if (foundQuestion.answer === answer) {
           res.render("questions/round1/" + nextQuestion);
         }
+
+
         else {
           // res.redirect("/questions/round1/question11");
           alert("your answer is incorrect ,try again");
@@ -161,142 +205,7 @@ console.log(ssn.contestant);
 });
 
 
-
-
-
-app.post("/questions/round1/question12", function (req, res) {
-  ssn=req.session;
-  var nextQuestion = req.body.play;
-  console.log(nextQuestion);
-  var answer = req.body.answer;
-  console.log(answer);
-  var contestant;
-
-  Player.findOneAndUpdate(
-    { PlayerName: ssn.contestant },
-    { CurrentStage: "question12" },
-    { new: true },
-    function (err){
- if(err){
-  console.log(err);
- }
- else{console.log("no error")}
-    }
-
-
-
-
-  );
-
-  
-  
-
-  Question.findOne({ question: nextQuestion }, function (err, foundQuestion) {
-    if (err) {
-      console.log(err);
-    } else {
-      if (foundQuestion) {
-        if (foundQuestion.answer === answer) {
-          res.render("questions/round1/" + nextQuestion);
-        }
-        else {
-          // res.redirect("/questions/round1/question11");
-          alert("your answer is incorrect ,try again");
-        }
-      }
-    }
-  });
-}
-);
-
-app.post("/questions/round1/question13", function (req, res) {
-  ssn=req.session
-  var nextQuestion = req.body.play;
-  console.log(nextQuestion);
-  var answer = req.body.answer;
-  console.log(answer);
-
-  var contestant;
-
-  Player.findOneAndUpdate(
-    { PlayerName: ssn.contestant },
-    { CurrentStage: "question13" },
-    { new: true },
-    function (err){
- if(err){
-  console.log(err);
- }
- else{console.log("no error")}
-    }
-
-
-
-
-  );
-
-  Question.findOne({ question: nextQuestion }, function (err, foundQuestion) {
-    if (err) {
-      console.log(err);
-    } else {
-      if (foundQuestion) {
-        if (foundQuestion.answer === answer) {
-          res.render("questions/round1/" + nextQuestion);
-        }
-        else {
-          res.redirect("/questions/round1/question11");
-          alert("your answer is incorrect ,try again");
-        }
-      }
-    }
-  });
-}
-);
-
-
-
-
-app.post("/questions/round1/question14", function (req, res) {
-  ssn = req.body
-  var nextQuestion = req.body.play;
-  console.log(nextQuestion);
-  var answer = req.body.answer;
-  console.log(answer);
-
-  var contestant;
-  Player.findOneAndUpdate(
-    { PlayerName: ssn.contestant },
-    { CurrentStage: "question14" },
-    { new: true },
-    function (err){
- if(err){
-  console.log(err);
- }
- else{console.log("no error")}
-    }
-
-
-
-
-  );
-  Question.findOne({ question: nextQuestion }, function (err, foundQuestion) {
-    if (err) {
-      console.log(err);
-    } else {
-      if (foundQuestion) {
-        if (foundQuestion.answer === answer) {
-          res.render("questions/round1/" + nextQuestion);
-        }
-        else {
-          // res.redirect("/questions/round1/question11");
-          alert("your answer is incorrect ,try again");
-        }
-      }
-    }
-  });
-
-}
-);
-
+//end request
 
 
 
